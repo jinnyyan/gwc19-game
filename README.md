@@ -13,11 +13,11 @@ _Game for GWC, developed separately in Javascript and Python, used for teaching 
 * To move, use arrow keys. On mobile, use swipes. 
 * Console output can be observed using "inspect" option on browser
 
-<div style="text-align:center">
+<p align="center">
      <img src="/img/js-screenshot.png"
           alt="JS game"
           height="350" width="350"/>
-</div>
+</p>
   
 
 ### Python game
@@ -28,11 +28,11 @@ _Game for GWC, developed separately in Javascript and Python, used for teaching 
 * Collect all four core modules!
 * Console output is available to follow progress
 
-<div style="text-align:center">
+<p align="center">
      <img src="/img/python-screenshot.png"
           alt="Python game"
           height="350" width="350"/>
-     </div>
+</p>
 
 ## Acknowledgements
 * Python game: Julianna Rodriguez, based on code [here](http://programarcadegames.com/python_examples/f.php?file=array_backed_grid.py)
