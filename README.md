@@ -21,7 +21,7 @@ _Game for GWC, developed separately in Javascript and Python, used for teaching 
   
 
 ### Python game
-* Script can be found under `/python` directory
+* Script can be found under `/python` directory, most updated code can be found [here](https://github.com/alystaK/GWC2019game)
 * Run `python basicGame2019.py` from command line within directory or through IDE
 * Uses jpg images under `/img` directory
 * To move, use arrow keys
