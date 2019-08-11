@@ -545,10 +545,10 @@ window.onload = function() {
 
   function chooseCore() {
     var imgArray = [
-      "../img/icon0.png",
-      "../img/icon1.png",
-      "../img/icon2.png",
-      "../img/icon3.png"
+      "/img/icon0.png",
+      "/img/icon1.png",
+      "/img/icon2.png",
+      "/img/icon3.png"
     ]
     var chosen = imgArray[Math.floor(Math.random()*imgArray.length)];
     console.log("Image chosen: "+chosen);
@@ -556,8 +556,7 @@ window.onload = function() {
   }
 
   core1Sprite = new Image();
-  core1Sprite.src = 
-    chooseCore()
+  core1Sprite.src = chooseCore()
   core1Sprite.onload = function() {
     core1Sprite = changeBrightness(1.1, core1Sprite);
     completeTwo = true;
