@@ -2,46 +2,28 @@
 // https://codepen.io/TheCodeDepository/pen/jKBaoN?page=8
 // This code is created for Girls Who Code Augusta University 
 
+// Question to GWC: What does this function do? What is the point of using max, random, and floor? Extensibility?
 function rand(max) {
   return Math.floor(Math.random() * max);
 }
 
+// Question to GWC: Ways to improve this function, using rand(max) above?
 function shuffle(a) {
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+  for (let i = a.length - 1; i > 0; i--) { // Question to GWC: Walk us through this for loop, what does i-- mean?
+    const j = Math.floor(Math.random() * (i + 1)); // Answer: rand(i + 1)
+    [a[i], a[j]] = [a[j], a[i]]; // Question to GWC: What does this do?
   }
   return a;
 }
 
-function changeBrightness(factor, sprite) {
-  var virtCanvas = document.createElement("canvas");
-  virtCanvas.width = 500;
-  virtCanvas.height = 500;
-  var context = virtCanvas.getContext("2d");
-  context.drawImage(sprite, 0, 0, 500, 500);
-
-  var imgData = context.getImageData(0, 0, 500, 500);
-
-  for (let i = 0; i < imgData.data.length; i += 4) {
-    imgData.data[i] = imgData.data[i] * factor;
-    imgData.data[i + 1] = imgData.data[i + 1] * factor;
-    imgData.data[i + 2] = imgData.data[i + 2] * factor;
-  }
-  context.putImageData(imgData, 0, 0);
-
-  var spriteOutput = new Image();
-  spriteOutput.src = virtCanvas.toDataURL();
-  virtCanvas.remove();
-  return spriteOutput;
-}
-
+// Question to GWC: When does this function matter and come into play?
 function displayVictoryMess(moves) {
   document.getElementById("moves").innerHTML = "You Moved " + moves + " Steps.";
   toggleVisablity("Message-Container");  
 }
 
-function toggleVisablity(id) {
+// Question to GWC: What does this function do? What is the visibility property?
+function toggleVisablity(id) { // Answer: Used for the victory message
   if (document.getElementById(id).style.visibility == "visible") {
     document.getElementById(id).style.visibility = "hidden";
   } else {
@@ -49,17 +31,18 @@ function toggleVisablity(id) {
   }
 }
 
+// Object-Oriented concept for higher levels.
 function Maze(Width, Height) {
   var mazeMap;
   var width = Width;
   var height = Height;
   var startCoord, endCoord;
-  var dirs = ["n", "s", "e", "w"];
+  var dirs = ["n", "s", "e", "w"]; // North, South, East, West
   var modDir = {
     n: {
       y: -1,
       x: 0,
-      o: "s"
+      o: "s" // o = opposite
     },
     s: {
       y: 1,
@@ -88,6 +71,7 @@ function Maze(Width, Height) {
     return endCoord;
   };
 
+  // Generate a map that is an array of arrays (height x width)
   function genMap() {
     mazeMap = new Array(height);
     for (y = 0; y < height; y++) {
@@ -105,6 +89,7 @@ function Maze(Width, Height) {
     }
   }
 
+  // In order to check moves and current positions
   function defineMaze() {
     var isComp = false;
     var move = false;
@@ -118,7 +103,7 @@ function Maze(Width, Height) {
     var numCells = width * height;
     while (!isComp) {
       move = false;
-      mazeMap[pos.x][pos.y].visited = true;
+      mazeMap[pos.x][pos.y].visited = true; // Mark location as visited
 
       if (numLoops >= maxLoops) {
         shuffle(dirs);
@@ -164,6 +149,7 @@ function Maze(Width, Height) {
     }
   }
 
+  // Randomly choose where the end is four 4 possible cases
   function defineStartEnd() {
     switch (rand(4)) {
       case 0:
@@ -214,17 +200,18 @@ function Maze(Width, Height) {
   defineMaze();
 }
 
-function DrawMaze(Maze, ctx, cellsize, sprite1 = null) {
+// This class does all the maze drawing!
+function DrawMaze(Maze, ctx, cellsize, sprite1, sprite2, sprite3, sprite4) {
   var map = Maze.map();
   var cellSize = cellsize;
-  var drawEndMethod;
   ctx.lineWidth = cellSize / 40;
 
   this.redrawMaze = function(size) {
     cellSize = size;
     ctx.lineWidth = cellSize / 50;
     drawMap();
-    drawEndMethod();
+    drawMidSprites(sprite1, sprite2, sprite3);
+    drawEndSprite(sprite4);
   };
 
   function drawCell(xCord, yCord, cell) {
@@ -265,44 +252,17 @@ function DrawMaze(Maze, ctx, cellsize, sprite1 = null) {
     }
   }
 
-  function drawEndFlag() {
-    var coord = Maze.endCoord();
-    var gridSize = 4;
-    var fraction = cellSize / gridSize - 2;
-    var colorSwap = true;
-    for (let y = 0; y < gridSize; y++) {
-      if (gridSize % 2 == 0) {
-        colorSwap = !colorSwap;
-      }
-      for (let x = 0; x < gridSize; x++) {
-        ctx.beginPath();
-        ctx.rect(
-          coord.x * cellSize + x * fraction + 4.5,
-          coord.y * cellSize + y * fraction + 4.5,
-          fraction,
-          fraction
-        );
-        if (colorSwap) {
-          ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-        } else {
-          ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-        }
-        ctx.fill();
-        colorSwap = !colorSwap;
-      }
-    }
-  }
-
-  function drawEndSprite() {
+  // Handle the final sprite (core 4!)
+  function drawEndSprite(sprite) {
     var offsetLeft = cellSize / 50;
     var offsetRight = cellSize / 25;
     var coord = Maze.endCoord();
     ctx.drawImage(
-      sprite1,
+      sprite,
       2,
       2,
-      sprite1.width,
-      sprite1.height,
+      sprite.width,
+      sprite.height,
       coord.x * cellSize + offsetLeft,
       coord.y * cellSize + offsetLeft,
       cellSize - offsetRight,
@@ -310,26 +270,54 @@ function DrawMaze(Maze, ctx, cellsize, sprite1 = null) {
     );
   }
 
-  function clear() {
+  // Handle each of the middle sprites
+  function drawMidSprites(sprite1, sprite2, sprite3) {
+    var offsetLeft = cellSize / 50;
+    var offsetRight = cellSize / 25;
+    var coord = Maze.endCoord();
+    drawRandom(sprite1, offsetLeft, offsetRight, coord);
+    drawRandom(sprite2, offsetLeft, offsetRight, coord);
+    drawRandom(sprite3, offsetLeft, offsetRight, coord);
+  }
+  
+  // Draw middle sprites at random locations
+  function drawRandom(sprite, offsetLeft, offsetRight, coord){
+    var randomX = rand(difficulty);  
+    var randomY = rand(difficulty);
+    if (randomX==coord.x && randomY==coord.y){
+      console.log("Regenerate new random coord for mid sprite to avoid final");
+      randomX = rand(difficulty);
+      randomY = rand(difficulty);
+    }
+    ctx.drawImage(
+      sprite,
+      2,
+      2,
+      sprite.width,
+      sprite.height,
+      randomX * cellSize + offsetLeft,
+      randomY * cellSize + offsetLeft,
+      cellSize - offsetRight,
+      cellSize - offsetRight
+    );
+  }
+
+  function clear() { // Defined and used once.
     var canvasSize = cellSize * map.length;
     ctx.clearRect(0, 0, canvasSize, canvasSize);
   }
 
-  if (sprite1 != null) {
-    drawEndMethod = drawEndSprite;
-  } else {
-    drawEndMethod = drawEndFlag;
-  }
   clear();
   drawMap();
-  drawEndMethod();
+  drawMidSprites(sprite1, sprite2, sprite3);
+  drawEndSprite(sprite4);
 }
 
+// Advanced Object Oriented concept for higher levels.
 function Player(maze, c, _cellsize, onComplete, sprite = null) {
   var ctx = c.getContext("2d");
   var drawSprite;
   var moves = 0;
-  drawSprite = drawSpriteCircle;
   if (sprite != null) {
     drawSprite = drawSpriteImg;
   }
@@ -340,29 +328,11 @@ function Player(maze, c, _cellsize, onComplete, sprite = null) {
     y: maze.startCoord().y
   };
   var cellSize = _cellsize;
-  var halfCellSize = cellSize / 2;
 
   this.redrawPlayer = function(_cellsize) {
     cellSize = _cellsize;
     drawSpriteImg(cellCoords);
   };
-
-  function drawSpriteCircle(coord) {
-    ctx.beginPath();
-    ctx.fillStyle = "yellow";
-    ctx.arc(
-      (coord.x + 1) * cellSize - halfCellSize,
-      (coord.y + 1) * cellSize - halfCellSize,
-      halfCellSize - 2,
-      0,
-      2 * Math.PI
-    );
-    ctx.fill();
-    if (coord.x === maze.endCoord().x && coord.y === maze.endCoord().y) {
-      onComplete(moves);
-      player.unbindKeyDown();
-    }
-  }
 
   function drawSpriteImg(coord) {
     var offsetLeft = cellSize / 50;
@@ -378,6 +348,7 @@ function Player(maze, c, _cellsize, onComplete, sprite = null) {
       cellSize - offsetRight,
       cellSize - offsetRight
     );
+    // If coordinates of player reaches end, show display box and trigger complete
     if (coord.x === maze.endCoord().x && coord.y === maze.endCoord().y) {
       onComplete(moves);
       player.unbindKeyDown();
@@ -448,15 +419,10 @@ function Player(maze, c, _cellsize, onComplete, sprite = null) {
 
   this.bindKeyDown = function() {
     window.addEventListener("keydown", check, false);
-
+    // Checks for swipes (mobile and computer)
     $("#view").swipe({
       swipe: function(
-        event,
-        direction,
-        distance,
-        duration,
-        fingerCount,
-        fingerData
+        direction
       ) {
         console.log(direction);
         switch (direction) {
@@ -508,8 +474,10 @@ var cellSize;
 var difficulty;
 
 window.onload = function() {
+  console.log("window has been onload");
   let viewWidth = $("#view").width();
   let viewHeight = $("#view").height();
+  // Edit view height and width to create perfectly square canvas that fits the whole page
   if (viewHeight < viewWidth) {
     ctx.canvas.width = viewHeight - viewHeight / 100;
     ctx.canvas.height = viewHeight - viewHeight / 100;
@@ -518,84 +486,37 @@ window.onload = function() {
     ctx.canvas.height = viewWidth - viewWidth / 100;
   }
 
-  //Load and edit sprites
-  var completeOne = false;
-  var completeTwo = false;
-  var completeThree = false;
-  var completeFour = false;
-  var completeFive = false;
-  var isComplete = () => {
-    if(completeOne === true && completeTwo === true && completeThree == true && completeFour == true && completeFive == true)
-       {
-         console.log("Runs");
-         setTimeout(function(){
-           makeMaze();
-         }, 500);         
-       }
-  };
+  // Load player sprite
   playerSprite = new Image();
-  playerSprite.src =
-    "../img/player.png"
+  playerSprite.src = "../img/player.png";
   playerSprite.onload = function() {
-    playerSprite = changeBrightness(1.2, playerSprite);
     completeOne = true;
-    console.log(completeOne);
-    isComplete();
   };
 
-  function chooseCore() {
-    var imgArray = [
-      "/img/icon0.png",
-      "/img/icon1.png",
-      "/img/icon2.png",
-      "/img/icon3.png"
-    ]
-    var chosen = imgArray[Math.floor(Math.random()*imgArray.length)];
-    console.log("Image chosen: "+chosen);
-    return chosen;
-  }
-
+  // Load core module sprites
+  var imgArray = [
+    "/img/icon0.png",
+    "/img/icon1.png",
+    "/img/icon2.png",
+    "/img/icon3.png"]
   core1Sprite = new Image();
-  core1Sprite.src = chooseCore()
-  core1Sprite.onload = function() {
-    core1Sprite = changeBrightness(1.1, core1Sprite);
-    completeTwo = true;
-    console.log(completeTwo);
-    isComplete();
-  };
+  core1Sprite.src = imgArray[0];
+  core2Sprite = new Image();
+  core2Sprite.src = imgArray[1];
+  core3Sprite = new Image();
+  core3Sprite.src = imgArray[2];
+  core4Sprite = new Image();
+  core4Sprite.src = imgArray[3];
 
-  // core2Sprite = new Image();
-  // core2Sprite.src = 
-  //   "../img/icon1.png"
-  // core2Sprite.onload = function() {
-  //   core2Sprite = changeBrightness(1.1, core2Sprite);
-  //   completeThree = true;
-  //   console.log(completeThree);
-  //   isComplete();
-  // };
+  // Send it!
+  console.log("Ready to go!");
+  setTimeout(function(){
+    makeMaze();
+  }, 500);
 
-  // core3Sprite = new Image();
-  // core3Sprite.src = 
-  //   "../img/icon2.png"
-  // core3Sprite.onload = function() {
-  //   core3Sprite = changeBrightness(1.1, core3Sprite);
-  //   completeThree = true;
-  //   console.log(completeThree);
-  //   isComplete();
-  // };
-
-  // core4Sprite = new Image();
-  // core4Sprite.src = 
-  //   "../img/icon3.png"
-  // core4Sprite.onload = function() {
-  //   core4Sprite = changeBrightness(1.1, core4Sprite);
-  //   completeFour = true;
-  //   console.log(completeFour);
-  //   isComplete();
-  // };
-  
 };
 
+// When window is resized, the width and height of the cell adapt accordingly
 window.onresize = function() {
   let viewWidth = $("#view").width();
   let viewHeight = $("#view").height();
@@ -613,19 +534,24 @@ window.onresize = function() {
   }
 };
 
+// Main function that gets reloaded on button click, gets called on window load
 function makeMaze() {
-  //document.getElementById("mazeCanvas").classList.add("border");
   if (player != undefined) {
     player.unbindKeyDown();
     player = null;
   }
+  // Choose difficulty from dropdown menu
   var e = document.getElementById("diffSelect");
   difficulty = e.options[e.selectedIndex].value;
   console.log("This is the difficulty score: " + difficulty);
+  
+  // Generate cell size from difficulty score (changed from index.html)
   cellSize = mazeCanvas.width / difficulty;
   maze = new Maze(difficulty, difficulty);
-  draw = new DrawMaze(maze, ctx, cellSize, core1Sprite);
+  draw = new DrawMaze(maze, ctx, cellSize, core1Sprite, core2Sprite, core3Sprite, core4Sprite);
   player = new Player(maze, mazeCanvas, cellSize, displayVictoryMess, playerSprite);
+  
+  // Fix up opacity of maze container
   if (document.getElementById("mazeContainer").style.opacity < "100") {
     document.getElementById("mazeContainer").style.opacity = "100";
   }
