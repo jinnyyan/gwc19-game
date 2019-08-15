@@ -10,7 +10,7 @@ body {
   left: 0;
   right: 0;
 }
-
+/* Marking the maze container, Question to GWC: What do each of these properties mean? */
 #mazeContainer {
   transition-property: opacity;
   transition-duration: 1s;
@@ -21,12 +21,14 @@ body {
   background-color: rgba(0, 0, 0, 0.3);
   margin: auto;
 }
+/* Specific subcomponent of mazeContainer is mazeCanvas */
 #mazeContainer #mazeCanvas {
   margin: 0;
   display: block;
   border: solid 1px black;
 }
 
+/* Question to GWC: What do each of these input properties mean? */
 input,
 select {
   transition-property: background-color opacity;

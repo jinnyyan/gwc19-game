@@ -144,7 +144,7 @@ function Maze(Width, Height) {
         pos = mazeMap[pos.x][pos.y].priorPos;
       }
       if (numCells == cellsVisited) {
-        isComp = true;
+        isComp = true; // If it touched every cell, then marks as completed
       }
     }
   }
@@ -152,7 +152,8 @@ function Maze(Width, Height) {
   // Randomly choose where the end is four 4 possible cases
   function defineStartEnd() {
     switch (rand(4)) {
-      case 0:
+      case 0: // Start top left, end bottom right
+        console.log("Case 0");
         startCoord = {
           x: 0,
           y: 0
@@ -162,7 +163,8 @@ function Maze(Width, Height) {
           y: width - 1
         };
         break;
-      case 1:
+      case 1: // Start bottom left, end top right
+        console.log("Case 1");
         startCoord = {
           x: 0,
           y: width - 1
@@ -172,7 +174,8 @@ function Maze(Width, Height) {
           y: 0
         };
         break;
-      case 2:
+      case 2: // Start top right, end bottom left
+        console.log("Case 2");
         startCoord = {
           x: height - 1,
           y: 0
@@ -182,7 +185,8 @@ function Maze(Width, Height) {
           y: width - 1
         };
         break;
-      case 3:
+      case 3: // Start bottom right, end top left
+      console.log("Case 3");
         startCoord = {
           x: height - 1,
           y: width - 1
@@ -314,13 +318,9 @@ function DrawMaze(Maze, ctx, cellsize, sprite1, sprite2, sprite3, sprite4) {
 }
 
 // Advanced Object Oriented concept for higher levels.
-function Player(maze, c, _cellsize, onComplete, sprite = null) {
+function Player(maze, c, _cellsize, onComplete, sprite) {
   var ctx = c.getContext("2d");
-  var drawSprite;
   var moves = 0;
-  if (sprite != null) {
-    drawSprite = drawSpriteImg;
-  }
   var player = this;
   var map = maze.map();
   var cellCoords = {
@@ -348,11 +348,13 @@ function Player(maze, c, _cellsize, onComplete, sprite = null) {
       cellSize - offsetRight,
       cellSize - offsetRight
     );
-    // If coordinates of player reaches end, show display box and trigger complete
+    // If coordinates of player reaches end, show display box and trigger complete, stop key trigger
     if (coord.x === maze.endCoord().x && coord.y === maze.endCoord().y) {
       onComplete(moves);
       player.unbindKeyDown();
     }
+
+    // TASK TO GWC: Extend this to identify when other core modules have been reached.
   }
 
   function removeSprite(coord) {
@@ -366,6 +368,7 @@ function Player(maze, c, _cellsize, onComplete, sprite = null) {
     );
   }
 
+  // This function takes the key pressed, removes player sprite from location and puts it at new location
   function check(e) {
     var cell = map[cellCoords.x][cellCoords.y];
     moves++;
@@ -378,7 +381,7 @@ function Player(maze, c, _cellsize, onComplete, sprite = null) {
             x: cellCoords.x - 1,
             y: cellCoords.y
           };
-          drawSprite(cellCoords);
+          drawSpriteImg(cellCoords);
         }
         break;
       case 87:
@@ -389,7 +392,7 @@ function Player(maze, c, _cellsize, onComplete, sprite = null) {
             x: cellCoords.x,
             y: cellCoords.y - 1
           };
-          drawSprite(cellCoords);
+          drawSpriteImg(cellCoords);
         }
         break;
       case 68:
@@ -400,7 +403,7 @@ function Player(maze, c, _cellsize, onComplete, sprite = null) {
             x: cellCoords.x + 1,
             y: cellCoords.y
           };
-          drawSprite(cellCoords);
+          drawSpriteImg(cellCoords);
         }
         break;
       case 83:
@@ -411,12 +414,13 @@ function Player(maze, c, _cellsize, onComplete, sprite = null) {
             x: cellCoords.x,
             y: cellCoords.y + 1
           };
-          drawSprite(cellCoords);
+          drawSpriteImg(cellCoords);
         }
         break;
     }
   }
 
+  // Binds the key input to actions
   this.bindKeyDown = function() {
     window.addEventListener("keydown", check, false);
     // Checks for swipes (mobile and computer)
@@ -452,12 +456,13 @@ function Player(maze, c, _cellsize, onComplete, sprite = null) {
     });
   };
 
+  // This function clears the bind from key to action
   this.unbindKeyDown = function() {
     window.removeEventListener("keydown", check, false);
     $("#view").swipe("destroy");
   };
 
-  drawSprite(maze.startCoord());
+  drawSpriteImg(maze.startCoord());
 
   this.bindKeyDown();
 }
@@ -473,6 +478,7 @@ var maze, draw, player;
 var cellSize;
 var difficulty;
 
+// This function gets activate when the page loads
 window.onload = function() {
   console.log("window has been onload");
   let viewWidth = $("#view").width();
