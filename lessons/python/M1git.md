@@ -71,13 +71,12 @@
     1. You should now be able to see your commit on the webpage when you refresh it!
 1. **Additional commits:**
 For further changes to your repository, use the following set of commands:
-  <!-- language: lang-py --> 
-    ```
-    git add -A
-    git commit -m "description of what you changed"
-    git status
-    git push
-    ```
+  ```
+  git add -A
+  git commit -m "description of what you changed"
+  git status
+  git push
+  ```
 
 ## Remove your git info from a shared computer:
 1. If you're on a shared computer, remove your info at the end of your session:

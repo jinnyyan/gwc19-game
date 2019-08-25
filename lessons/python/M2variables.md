@@ -1,5 +1,6 @@
 # M2: Core 4: Variables
 [16 SEP 2019]
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 
 ## What is a variable?
 **The computer can store information for you**
@@ -17,11 +18,10 @@ A variable is a location where a computer can store information. Variables have 
 1. Using the keyboard, type `idle`.
 1. You should see an 'IDLE (Python 3...)' App option; left-click the line numbered code icon.
 1. Inside your Python 3.\* shell, type the following two lines, hitting enter after each:
-  <!-- language: lang-py --> 
-    ```
+  <pre class="prettyprint lang-py"> 
     name1="Grace Hopper"
     print(name1)
-    ```
+  </pre>
   You should see the words `Grace Hopper` repeated after your print command. This means you stored the value `Grace Hopper` into the variable named `name1` and, when ordered to do so, the computer printed the value stored in that variable back to you.
 1. Try to assign different values and variables:
   <!-- language: lang-py --> 
