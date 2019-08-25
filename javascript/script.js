@@ -2,6 +2,12 @@
 // https://codepen.io/TheCodeDepository/pen/jKBaoN?page=8
 // This code is created for Girls Who Code Augusta University 
 
+// Current TODO:
+// - Add logic that game can't be completed without gathering all modules
+// - Move alert container to the side instead of front with button dismissing it
+// - Add logic to ensure core modules don't choose the same random spot
+
+
 // Question to GWC: What does this function do? What is the point of using max, random, and floor? Extensibility?
 function rand(max) {
   return Math.floor(Math.random() * max);
@@ -22,6 +28,24 @@ function displayVictoryMess(moves) {
   toggleVisablity("Message-Container");  
 }
 
+// Task to GWC: Create message container that says "You Found Core Module __!" (complete)
+function displayCoreMess(coreNum) {
+  document.getElementById("moves").innerHTML = "You Found Core Module " + coreNum + "!";
+  toggleVisablity("Message-Container");
+}
+
+// Used to check if an array of coords includes a specific coord
+function coordIncludes(coordList, coord){
+  var coordListX = coordList.map((n) => { return n.x })
+  var coordListY = coordList.map((n) => { return n.y })
+  if (coordListX.includes(coord.x) && (coordListY.includes(coord.y))){
+    if (coordListX.indexOf(coord.x)===coordListY.indexOf(coord.y)){
+      return coordListX.indexOf(coord.x) + 1 // Add 1 to offset that array starts from 0
+    }
+  } 
+  return 0; 
+}
+
 // Question to GWC: What does this function do? What is the visibility property?
 function toggleVisablity(id) { // Answer: Used for the victory message
   if (document.getElementById(id).style.visibility == "visible") {
@@ -36,7 +60,7 @@ function Maze(Width, Height) {
   var mazeMap;
   var width = Width;
   var height = Height;
-  var startCoord, endCoord;
+  var startCoord, endCoord, coreCoord;
   var dirs = ["n", "s", "e", "w"]; // North, South, East, West
   var modDir = {
     n: {
@@ -61,6 +85,7 @@ function Maze(Width, Height) {
     }
   };
 
+  // Accessing object oriented attributes of the map
   this.map = function() {
     return mazeMap;
   };
@@ -70,6 +95,9 @@ function Maze(Width, Height) {
   this.endCoord = function() {
     return endCoord;
   };
+  this.coreCoord = function() {
+    return coreCoord;
+  }
 
   // Generate a map that is an array of arrays (height x width)
   function genMap() {
@@ -77,7 +105,7 @@ function Maze(Width, Height) {
     for (y = 0; y < height; y++) {
       mazeMap[y] = new Array(width);
       for (x = 0; x < width; ++x) {
-        mazeMap[y][x] = {
+        mazeMap[y][x] = { // Each block in map has the following properties
           n: false,
           s: false,
           e: false,
@@ -101,7 +129,7 @@ function Maze(Width, Height) {
       y: 0
     };
     var numCells = width * height;
-    while (!isComp) {
+    while (!isComp) { // While not completed
       move = false;
       mazeMap[pos.x][pos.y].visited = true; // Mark location as visited
 
@@ -199,13 +227,33 @@ function Maze(Width, Height) {
     }
   }
 
+  function randomCoord() {
+    var randomX = rand(difficulty);  
+    var randomY = rand(difficulty);
+    if (randomX==endCoord.x && randomY==endCoord.y){
+      console.log("Regenerate new random coord for mid sprite to avoid final");
+      randomX = rand(difficulty);
+      randomY = rand(difficulty);
+    }
+    coord = { x: randomX, y: randomY };
+    return coord; 
+  }
+
+  function defineOtherSprites() {
+    var sprite1Coord = randomCoord();
+    var sprite2Coord = randomCoord();
+    var sprite3Coord = randomCoord();
+    coreCoord = [sprite1Coord, sprite2Coord, sprite3Coord];
+  }
+
   genMap();
   defineStartEnd();
+  defineOtherSprites();
   defineMaze();
 }
 
 // This class does all the maze drawing!
-function DrawMaze(Maze, ctx, cellsize, sprite1, sprite2, sprite3, sprite4) {
+function DrawMaze(Maze, ctx, cellsize, midSprites, sprite4) {
   var map = Maze.map();
   var cellSize = cellsize;
   ctx.lineWidth = cellSize / 40;
@@ -218,6 +266,7 @@ function DrawMaze(Maze, ctx, cellsize, sprite1, sprite2, sprite3, sprite4) {
     drawEndSprite(sprite4);
   };
 
+  // Determine which paths are "false" and draw line to block direction
   function drawCell(xCord, yCord, cell) {
     var x = xCord * cellSize;
     var y = yCord * cellSize;
@@ -247,7 +296,8 @@ function DrawMaze(Maze, ctx, cellsize, sprite1, sprite2, sprite3, sprite4) {
       ctx.stroke();
     }
   }
-
+  
+  // This calls on drawCell for every cell in map
   function drawMap() {
     for (x = 0; x < map.length; x++) {
       for (y = 0; y < map[x].length; y++) {
@@ -275,35 +325,25 @@ function DrawMaze(Maze, ctx, cellsize, sprite1, sprite2, sprite3, sprite4) {
   }
 
   // Handle each of the middle sprites
-  function drawMidSprites(sprite1, sprite2, sprite3) {
+  function drawMidSprites(sprites) {
     var offsetLeft = cellSize / 50;
     var offsetRight = cellSize / 25;
-    var coord = Maze.endCoord();
-    drawRandom(sprite1, offsetLeft, offsetRight, coord);
-    drawRandom(sprite2, offsetLeft, offsetRight, coord);
-    drawRandom(sprite3, offsetLeft, offsetRight, coord);
-  }
-  
-  // Draw middle sprites at random locations
-  function drawRandom(sprite, offsetLeft, offsetRight, coord){
-    var randomX = rand(difficulty);  
-    var randomY = rand(difficulty);
-    if (randomX==coord.x && randomY==coord.y){
-      console.log("Regenerate new random coord for mid sprite to avoid final");
-      randomX = rand(difficulty);
-      randomY = rand(difficulty);
+    var coreCoord = Maze.coreCoord();
+    for (i = 0; i < coreCoord.length; i++) { 
+      var coord = coreCoord[i];
+      var sprite = sprites[i];
+      ctx.drawImage(
+        sprites[i],
+        2,
+        2,
+        sprite.width,
+        sprite.height,
+        coord.x * cellSize + offsetLeft,
+        coord.y * cellSize + offsetLeft,
+        cellSize - offsetRight,
+        cellSize - offsetRight
+      );
     }
-    ctx.drawImage(
-      sprite,
-      2,
-      2,
-      sprite.width,
-      sprite.height,
-      randomX * cellSize + offsetLeft,
-      randomY * cellSize + offsetLeft,
-      cellSize - offsetRight,
-      cellSize - offsetRight
-    );
   }
 
   function clear() { // Defined and used once.
@@ -313,7 +353,7 @@ function DrawMaze(Maze, ctx, cellsize, sprite1, sprite2, sprite3, sprite4) {
 
   clear();
   drawMap();
-  drawMidSprites(sprite1, sprite2, sprite3);
+  drawMidSprites(midSprites);
   drawEndSprite(sprite4);
 }
 
@@ -353,8 +393,14 @@ function Player(maze, c, _cellsize, onComplete, sprite) {
       onComplete(moves);
       player.unbindKeyDown();
     }
-
-    // TASK TO GWC: Extend this to identify when other core modules have been reached.
+    // Checking for whether the coordinates are within the random sprint cores
+    var coreNum = coordIncludes(maze.coreCoord(),coord)
+    if (coreNum != 0) { // Means that no coreNum was reached
+      console.log('Reached a core module!');
+      // TODO: Remove coordinates so that if you go back, the alert doesn't come up again
+      displayCoreMess(coreNum);
+    }
+    // TASK TO GWC: Extend this to identify when other core modules have been reached. (complete)
   }
 
   function removeSprite(coord) {
@@ -376,7 +422,7 @@ function Player(maze, c, _cellsize, onComplete, sprite) {
       case 65:
       case 37: // west
         if (cell.w == true) {
-          removeSprite(cellCoords);
+          removeSprite(cellCoords); // Removes player sprite and core sprite
           cellCoords = {
             x: cellCoords.x - 1,
             y: cellCoords.y
@@ -428,7 +474,6 @@ function Player(maze, c, _cellsize, onComplete, sprite) {
       swipe: function(
         direction
       ) {
-        console.log(direction);
         switch (direction) {
           case "up":
             check({
@@ -554,7 +599,8 @@ function makeMaze() {
   // Generate cell size from difficulty score (changed from index.html)
   cellSize = mazeCanvas.width / difficulty;
   maze = new Maze(difficulty, difficulty);
-  draw = new DrawMaze(maze, ctx, cellSize, core1Sprite, core2Sprite, core3Sprite, core4Sprite);
+  var coreMidSprites = [core1Sprite, core2Sprite, core3Sprite];
+  draw = new DrawMaze(maze, ctx, cellSize, coreMidSprites, core4Sprite);
   player = new Player(maze, mazeCanvas, cellSize, displayVictoryMess, playerSprite);
   
   // Fix up opacity of maze container
