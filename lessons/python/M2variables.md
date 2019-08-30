@@ -1,5 +1,5 @@
 # M2: Core 4: Variables
-[16 SEP 2019]
+[23 SEP 2019]
 
 ## What is a variable?
 **The computer can store information for you**
@@ -16,7 +16,7 @@ A variable is a location where a computer can store information. Variables have 
 1. Left-click the Windows button (bottom left of the screen; has Windows icon); a menu of options will appear but don't click anything.
 1. Using the keyboard, type `idle`.
 1. You should see an 'IDLE (Python 3...)' App option; left-click the line numbered code icon.
-1. Inside your Python 3.\* shell, type the following two lines, hitting enter after each:
+1. Inside your Python 3.\* shell, type the following two lines, hitting the enter key after each command:
     ````
     name1="Grace Hopper"
     print(name1)
@@ -48,7 +48,7 @@ A variable is a location where a computer can store information. Variables have 
     color2 = "awesome"
     tempcolor = color1
     color1 = color2
-    color2 = color1
+    color2 = tempcolor
     print(color1)
     print(color2)
     ```
