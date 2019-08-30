@@ -110,7 +110,7 @@ while (score < 4):
   clock.tick(60) # In milliseconds (https://www.pygame.org/docs/ref/time.html)
   pygame.display.flip() # Redraw the board
   
-  if score == 4: # Check for exit condition congratulatory message
+  if score == 2: # Check for exit condition congratulatory message
     print("Congratulations on learning all of the Core 4!")
     print("Now practice practice practice and create cool code!")
     
