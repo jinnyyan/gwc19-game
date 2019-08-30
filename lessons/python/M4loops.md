@@ -1,4 +1,4 @@
-# M2: Core 4: Loops
+# M4: Core 4: Loops
 [21 OCT 2019]
 
 ## What is a loop?
@@ -6,9 +6,9 @@
 A loop is a set of instructions that will be repeated more than once. Loops can happen indefinitely, or a set number of times.
 
 <p align="center">
-     <img src="../../img/loops.png"
+     <img src="../../img/loops.PNG"
           alt="loop diagram"
-          width="500"/>
+          height="350"/>
 </p>
 
 
