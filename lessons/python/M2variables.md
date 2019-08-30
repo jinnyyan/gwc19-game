@@ -1,5 +1,5 @@
 # M2: Core 4: Variables
-[16 SEP 2019]
+[23 SEP 2019]
 
 ## What is a variable?
 **The computer can store information for you**
@@ -48,7 +48,7 @@ A variable is a location where a computer can store information. Variables have 
     color2 = "awesome"
     tempcolor = color1
     color1 = color2
-    color2 = color1
+    color2 = tempcolor
     print(color1)
     print(color2)
     ```
