@@ -1,7 +1,7 @@
-# M6: Core 4: Review & Work Time
-[28 OCT 2019]
+# M6: Python: Game Design & Libraries
+[18 NOV 2019]
 
-## Review 
+## Review Core 4
 
 <p align="center">
      <img src="../../img/BlockReview.PNG"
@@ -10,4 +10,4 @@
 </p>
 
 
-## T
+## 

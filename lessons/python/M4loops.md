@@ -1,5 +1,5 @@
 # M4: Core 4: Loops
-[21 OCT 2019]
+[28 OCT 2019]
 
 ## What is a loop?
 **The computer can do repeated work for you**
@@ -16,7 +16,7 @@ A loop is a set of instructions that will be repeated more than once. Loops can 
 1. Left-click the Windows button at the bottom left of the screen.
 1. Using the keyboard, type `idle` and then left-click the icon.
 1. Inside your Python 3.\* shell, left-click the 'File' menu option and select 'New File' (note you can also do this with CTRL+N).
-1. Inside the IDLE file window (it doesn't have the `>>>` prompt, so you know it's not a shell), type the following:
+1. Inside the IDLE file window, type the following:
     ```
     for i in [1,2,3]:
       print(2*i)
@@ -32,8 +32,17 @@ A loop is a set of instructions that will be repeated more than once. Loops can 
     ```
     *Note:* Here we use 'x' instead of 'i' as the name of our iterator; we could name it anything that doesn't already have a name. We also use a range function -- for details on this, see the Python documentation with examples at:  https://docs.python.org/3/library/stdtypes.html#typesseq-range
 1. Select the previous two lines you typed, left-click the Format menu option, and select the Comment Out Region option. Verify that the previous code now appears in a different color with `#` signs at the beginning of the line.
-1. Press CTRL+S (you won't have to choose a file name and location because you are updating the same file you already created) followed by F5 to run your updated code. Did you get what you expected to get?
-
+1. Press CTRL+S followed by F5 to run your updated code. Did you get what you expected to get?
+1. To try a while loop, go back to your Python file and highlight and comment out the previous code. Type the following into the file:
+    ```
+    
+    n = 1
+    while (n < 4):
+      print(2*n)
+      n = n + 1
+    ```
+1. Press CTRL+S followed by F5 to run your updated code.
+    *Reflect:* If you didn't increment the value of n inside of the loop, would you ever exit the loop?
 
 ## Identify and change loops in the game
 1. 
