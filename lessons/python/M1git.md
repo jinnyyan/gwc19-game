@@ -1,5 +1,5 @@
 # M1: Get started with git & run a Python game
-[16 SEP 2019]
+[23 SEP 2019]
 
 ## References:
 * What is git? https://docs.microsoft.com/en-us/azure/devops/learn/git/what-is-git 

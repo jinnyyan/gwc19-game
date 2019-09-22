@@ -1,5 +1,5 @@
 # M3: Core 4: Conditionals
-[07 OCT 2019]
+[21 OCT 2019]
 
 ## What is a conditional?
 **The computer can make decisions for you**
@@ -61,4 +61,4 @@ Conditionals use data and true/false commands to make decisions for you. They ar
     1. Hit the F5 button on your keyboard to load the code into a shell.
     1. Move the game window and the Python shell window around on your screen so you can see both of them at the same time.
     1. Use the arrow keys on the keyboard or the 'a','s','d', and 'w' keys to move the player on the board and collect the Core 4 -- look specifically for when the game ends.
-    1. Because you just created an infinite loop, select the shell window and hit CTRL+C to stop the madness!
+    1. Because you just created an infinite loop, select the shell window and **hit CTRL+C to stop the madness!**

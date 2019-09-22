@@ -1,5 +1,5 @@
 # M2: Core 4: Variables
-[23 SEP 2019]
+[07 OCT 2019]
 
 ## What is a variable?
 **The computer can store information for you**
