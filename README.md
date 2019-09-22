@@ -1,8 +1,7 @@
-## Girls Who Code Augusta University Game
-_Game for GWC, developed separately in Javascript and Python, used for teaching purposes_
+## Augusta University CodeHoppers Game
+_CodeHoppers Game for learning, developed separately in Javascript and Python_
 
 **Dependencies:** Python3
-
 
 ### Javascript game 
 * Demo available at <https://gwc.jinny.dev>
