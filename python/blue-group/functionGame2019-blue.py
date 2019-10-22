@@ -12,12 +12,13 @@ width, height, margin = 100, 100, 2
 BLACK = (0, 0, 0)
 WHITE = (255,255,255)
 grid = [] # 2D array (list of lists) for board
-player = pygame.image.load('player.jpg').convert()
+player = pygame.image.load('../img/percy.jpg').convert()
 playerCoord = [0,0]
-icon0 = pygame.image.load('icon0.jpg').convert() 
-icon1 = pygame.image.load('icon1.jpg').convert()
-icon2 = pygame.image.load('icon2.jpg').convert()
-icon3 = pygame.image.load('icon3.jpg').convert()
+icon0 = pygame.image.load('../img/kiss.jpg').convert() 
+icon1 = pygame.image.load('../img/girl.jpg').convert()
+icon2 = pygame.image.load('../img/leo.jpg').convert()
+icon3 = pygame.image.load('../img/helmet.jpg').convert()
+icon4 = pygame.image.load('../img/girl2.jpg').convert()
 
 # 3 - Define game functions ####################################################
 ## 3a - Initialize the game board
@@ -32,7 +33,8 @@ def initBoard():
   grid[3][1] = 11 # icon 1 location set by a value of 11
   grid[2][2] = 12 # icon 2 location set by a value of 12
   grid[4][3] = 13 # icon 3 location set by a value of 13
-
+  grid[3][3]=15
+  
 ## 3b - Draw player/icon on the board
 def drawIcon(rw,cl,iconName):
   screen.blit(iconName,((margin+width)*cl + margin,(margin+height)*rw + margin))
@@ -52,7 +54,9 @@ def updateBoard():
       if grid[row][column] == 12:  #icon2 location
         drawIcon(row,column,icon2)  
       if grid[row][column] == 13:  #icon3 location
-        drawIcon(row,column,icon3)    
+        drawIcon(row,column,icon3)
+      if grid[row][column] == 15:  #icon3 location
+        drawIcon(row,column,icon4)
       if grid[row][column] == 1:  #player location
         drawIcon(row,column,player)  
 
