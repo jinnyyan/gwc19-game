@@ -45,4 +45,13 @@ A loop is a set of instructions that will be repeated more than once. Loops can 
     *Reflect:* If you didn't increment the value of n inside of the loop, would you ever exit the loop?
 
 ## Identify and change loops in the game
-1. 
+1. The simplest loop to change in the game is the iteration/exit condition loop, which is a while loop. Find it and change it to exit when the score is less than 2 or 3 instead of 4. Run the game and see how it works.
+2. The for loops in the game set up and render the board and thus depend upon each other. Since it's a 2D board, there are nested for loops to address each of the dimensions. In which set of lines do the board values get initialized? Change both range function arguments to '4's instead of '5's (this will break the game!), and run the game. Note, it doesn't break where you changed it --- why does it break at line 33? 
+3. Remember, Python and most computer concepts start counting at 0 (not 1). Fix line 33 to fit within your newer, smaller board sizes. If you're confused how the logic and numbering works, sketch it -- and ask your facilitators for help! Run the code again... does it break now at line 94?
+4. Line 94 itself is tricky, because this line isn't itself part of the dependency that you broke when you made the board size smaller. Look at lines 88 and 89, and fix these range arguments to match what you changed in step 2. Run the game -- it may work or it may break again on lines 63 or 79.
+5. To fix the list index out of range error, we need to find where it's looking beyond the size of our smaller board. What's different about the if statements that precede lines 63 and 79 versus those that precede lines 55 and 71? Fix the ranges and run the game again.
+6. Even though the game works, it has an extra border of black around the edges; this is due to hard-coded logic as opposed to variable-dependent (and thus responsive) logic. Go to line 9 and change your board size variable to the following:
+```
+  boardsize = (410, 410)
+```
+Now your game should work with the smaller 4x4 board instead of the 5x5 board!
