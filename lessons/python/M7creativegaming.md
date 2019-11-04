@@ -1,5 +1,5 @@
-# M6: Python: Game Design & Libraries
-[18 NOV 2019]
+# M7: Python: Creative Gaming
+[02 DEC 2019]
 
 ## Review Core 4
 

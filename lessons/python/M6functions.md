@@ -1,5 +1,5 @@
-# M5: Core 4: Functions
-[04 NOV 2019]
+# M6: Core 4: Functions
+[18 NOV 2019]
 
 ## What is a function?
 **The computer can bundle commands and refer back to these bundles when you need them**
