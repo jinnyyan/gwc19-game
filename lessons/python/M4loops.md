@@ -3,6 +3,7 @@
 
 ## What is a loop?
 **The computer can do repeated work for you**
+
 A loop is a set of instructions that will be repeated more than once. Loops can happen indefinitely, or a set number of times.
 
 <p align="center">

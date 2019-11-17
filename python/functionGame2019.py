@@ -12,12 +12,12 @@ width, height, margin = 100, 100, 2
 BLACK = (0, 0, 0)
 WHITE = (255,255,255)
 grid = [] # 2D array (list of lists) for board
-player = pygame.image.load('player.jpg').convert()
+player = pygame.image.load('../img/player.jpg').convert()
 playerCoord = [0,0]
-icon0 = pygame.image.load('icon0.jpg').convert() 
-icon1 = pygame.image.load('icon1.jpg').convert()
-icon2 = pygame.image.load('icon2.jpg').convert()
-icon3 = pygame.image.load('icon3.jpg').convert()
+icon0 = pygame.image.load('../img/icon0.jpg').convert() 
+icon1 = pygame.image.load('../img/icon1.jpg').convert()
+icon2 = pygame.image.load('../img/icon2.jpg').convert()
+icon3 = pygame.image.load('../img/icon3.jpg').convert()
 
 # 3 - Define game functions ####################################################
 ## 3a - Initialize the game board
