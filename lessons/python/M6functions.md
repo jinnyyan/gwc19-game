@@ -29,13 +29,13 @@ def welcomeMsg():
   print("\nHello and welcome to <my name>'s game!")
   print("I hope you enjoy playing :)")
 ```
-Note: the "\n" character tells the computer to give you a new line prior to the word "Hello".
+..* Note: the "\n" character tells the computer to give you a new line prior to the word "Hello".
 1. Save and run the game (CTRL+s and F5). Why didn't your function run?
 1. Within `## 4a - Initialize game` and prior to `## 4b - keep looping until exit condition met`, call your new function:
 ```python
   welcomeMsg()
 ```
-Make sure it's at the same indentation as the other commands in 4a!
+..* Make sure it's at the same indentation as the other commands in 4a!
 1. Save and run the game. Did it work?
 1. One of the commands within the 4a set would work better in your new function -- the other print command! Move it to your welcomeMsg function, save, and run again.
 
